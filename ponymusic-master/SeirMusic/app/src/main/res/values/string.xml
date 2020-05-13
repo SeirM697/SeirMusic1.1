@@ -1,0 +1,15 @@
+<resources>
+
+    <string name="app_name">云音乐</string>
+
+    <!--Index-->
+    <string name="text_index_title">音乐的力量</string>
+
+    <!--Main-->
+    <string name="text_main_null_muisc">你的本地没有音乐</string>
+    <string name="text_main_re_scan_muisc">正在扫描，请稍等...</string>
+
+    <string name="text_main_list_singer">歌手</string>
+    <string name="text_main_list_album">专辑</string>
+    <string name="text_main_list_time">时间</string>
+</resources>

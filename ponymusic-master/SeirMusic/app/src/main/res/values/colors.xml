@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#C20C0C</color>
+    <color name="colorPrimaryDark">#C20C0C</color>
+    <color name="colorAccent">#C20C0C</color>
+
+
+    <color name="colorPrimary1">#008577</color>
+    <color name="colorPrimaryDark1">#00574B</color>
+    <color name="colorAccent1">#D81B60</color>
+    <color name="color_minefragment_top">#20B2AA</color>
+</resources>
