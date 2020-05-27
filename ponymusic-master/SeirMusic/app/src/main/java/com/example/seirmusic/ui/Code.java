@@ -67,12 +67,9 @@ public class Code {
     //验证码图片
     public Bitmap createBitmap() {
         padding_left = 0;
-
         Bitmap bp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bp);
-
         code = createCode();
-
         c.drawColor(Color.WHITE);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
@@ -87,17 +84,14 @@ public class Code {
         for (int i = 0; i < line_number; i++) {
             drawLine(c, paint);
         }
-
 //        c.save( Canvas.ALL_SAVE_FLAG );//保存
         c.save();//保存
         c.restore();//
         return bp;
     }
-
     public String getCode() {
         return code;
     }
-
     //生成验证码
     private String createCode() {
         StringBuilder buffer = new StringBuilder();

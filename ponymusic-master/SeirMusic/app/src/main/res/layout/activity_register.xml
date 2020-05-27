@@ -13,7 +13,7 @@
         android:id="@+id/rl_registeractivity_top"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/color_minefragment_top"
+        android:background="@color/colorPrimaryDark"
         >
       <ImageView
           android:id="@+id/iv_registeractivity_back"

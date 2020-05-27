@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.seirmusic.MainActivity;
 import com.example.seirmusic.R;
+import com.example.seirmusic.utils.ApplicationTrans;
 
 import java.util.ArrayList;
 /**
@@ -146,11 +147,9 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
                         Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(this,MyMusicActivity.class);
-
                         intent.putExtra("userName",name);
                         Log.i("tiaozhuan", "onClick:跳转 ");
                         startActivity(intent);
-//                        startActivity(new Intent(this, MyMusicActivity.class));
                         finish();
                     } else {
                         Toast.makeText(this, "用户名或密码不正确，请重新输入", Toast.LENGTH_SHORT).show();

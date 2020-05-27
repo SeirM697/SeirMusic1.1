@@ -29,6 +29,7 @@ import com.example.seirmusic.ui.LoginActivityMian;
 import com.example.seirmusic.ui.MyMusicActivity;
 import com.example.seirmusic.ui.PlayerActivity;
 import com.example.seirmusic.ui.loginActivity;
+import com.example.seirmusic.utils.ApplicationTrans;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initView();
 
     }
@@ -74,21 +74,26 @@ public class MainActivity extends AppCompatActivity {
         mMainListView.setLayoutManager(new LinearLayoutManager(this));
         //适配器
 
-        mMainListAdapter = new MainListAdapter(this,mMusicList);
+        mMainListAdapter = new MainListAdapter(this, mMusicList);
         mMainListView.setAdapter(mMainListAdapter);
+
+        Intent intent = getIntent();
+        s = intent.getStringExtra("nameUser");
+        Log.i("ismain", "onOptionsItemSelected:   我的名字 " + s);
+        mMainListAdapter.setName(s);
 
         //判断当前权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int isCheck = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 //            Toast.makeText(this,"ischeck:"+isCheck,Toast.LENGTH_SHORT).show();
-            if (isCheck != 0){
+            if (isCheck != 0) {
                 //请求权限
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},10001);
-            }else {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10001);
+            } else {
                 bindService();
             }
 
-        }else {
+        } else {
             bindService();
         }
 
@@ -108,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     //得到数据，刷新数据源
                     mMainListAdapter.notifyDataSetChanged();
-
                 }
             }
 
@@ -135,8 +139,8 @@ public class MainActivity extends AppCompatActivity {
                     //得到数据，刷新数据源  插入数据库表
                     //------------------------------------------
                     for (Music m : mMusicList) {
-                        MusicList musicList = new MusicList(m.getMusicName(),m.getMusicSinger(),m.getAlbum(),m.getPath(),m.getLrcPath());
-                        musicListDataBase = Room.databaseBuilder(MainActivity.this,MusicListDataBase.class,"musiclist_database").allowMainThreadQueries().build();
+                        MusicList musicList = new MusicList(m.getMusicName(), m.getMusicSinger(), m.getAlbum(), m.getPath(), m.getLrcPath());
+                        musicListDataBase = Room.databaseBuilder(MainActivity.this, MusicListDataBase.class, "musiclist_database").allowMainThreadQueries().build();
                         musicListDao = musicListDataBase.getMusicListDao();
                         musicListDao.insertMusic(musicList);
                     }
@@ -170,34 +174,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //顶部栏 导航
-    switch (item.getItemId()) {
-        case R.id.menu_scan:
-            //搜索音乐
-            if (!MusicManager.getInstance().getClientImpl().isScan()) {
-                if (mMusicList.size() > 0) {
-                    mMusicList.clear();
+        switch (item.getItemId()) {
+            case R.id.menu_scan:
+                //搜索音乐
+                if (!MusicManager.getInstance().getClientImpl().isScan()) {
+                    if (mMusicList.size() > 0) {
+                        mMusicList.clear();
+                    }
+                    MusicManager.getInstance().getClientImpl().startScanMusic();
                 }
-                MusicManager.getInstance().getClientImpl().startScanMusic();
-            }
-            break;
-
-        case R.id.menu_play:
-            //跳转到音乐播放界面
-            Intent intent = getIntent();
-            s = intent.getStringExtra("nameUser");
-            if (s != null) {
-                Intent intent2 = new Intent(this, MyMusicActivity.class);
-                Log.i("zhuyetiaozhuan", "onOptionsItemSelected: ");
-                intent2.putExtra("nameUser",s);
-                startActivity(intent2);
                 break;
-            }
 
-        case R.id.menu_login:
-            Intent intent1 = new Intent(this, loginActivity.class);
-            startActivity(intent1);
-            break;
+            case R.id.menu_play:
+                //跳转到音乐播放界面
+                Log.d(TAG, "onOptionsItemSelected: 传过来姓名没有？" + s);
+                if (s != null) {
+                    Intent intent2 = new Intent(this, MyMusicActivity.class);
+                    Log.i("zhuyetiaozhuan", "onOptionsItemSelected: ");
+                    intent2.putExtra("nameUser", s);
+                    startActivity(intent2);
+                    finish();
+                    break;
+                }
+
+            case R.id.menu_login:
+                Intent intent1 = new Intent(this, loginActivity.class);
+                startActivity(intent1);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
-    return super.onOptionsItemSelected(item);
-}
 }
